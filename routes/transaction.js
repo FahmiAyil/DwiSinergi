@@ -52,10 +52,11 @@ router.get('/addtransaction', async (req, res, next) => {
 
 router.post('/savetransaction', async (req, res, next) => {
   console.log('Obtain data ==> ', req.body)
-  let { nominal, category_id } = req.body
+  let { nominal, category_id, description } = req.body
   let addData = await transaction.create({
     nominal,
     category_id,
+    description
   });
   res.redirect('/transactions');
 });
@@ -75,10 +76,11 @@ router.get('/edittransaction/:id', async (req, res, next) => {
 router.put('/edittransaction', async (req, res, next) => {
   console.log('Obtain data to put ==> ', req.body)
   try {
-    let { id, nominal, category_id } = req.body
+    let { id, nominal, category_id, description } = req.body
     let editData = await transaction.update({
       nominal,
       category_id,
+      description
     },
       {
         where: {
