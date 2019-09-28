@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/material.min.css">
+    <script src="/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  </head>
+  <body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <span class="mdl-layout-title">FahmiApp</span>
+          <div class="mdl-layout-spacer"></div>
+        </div>
+      </header>
+      <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">FahmiApp</span>
+        <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" href="/">Home</a>
+          <a class="mdl-navigation__link" href="/category">Kategori</a>
+          <a class="mdl-navigation__link" href="/transactions">Transaksi</a>
+        </nav>
+      </div>
+      <main class="mdl-layout__content" style="padding:10px 0 0 20%">
+        <div class="page-content">
+          <h2>Tambah Transaksi</h2>
+          <form
+            action="/transactions/savetransaction"
+            method="POST">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="display: block">
+              <select class="mdl-textfield__input" id="category_id" name="category_id">
+                <% for(i = 0; i < result.length; i++){ %>
+                  <option value="<%= result[i].id %>"><%= result[i].name %></option>
+                <% } %>
+              </select>
+              <label class="mdl-textfield__label" for="category_id">Tipe</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="display: block">
+              <input class="mdl-textfield__input" type="number" name="nominal" id="nominal">
+              <label class="mdl-textfield__label" for="nominal">Nominal</label>
+            </div>
+            <input type="submit" value="Simpan" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+            <input onclick="back()" type="button" value="Batal"
+              class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
+          </form>
+        </div>
+      </main>
+    </div>
+    <script>
+      const back = () => {
+        window.location.href = "/transactions";
+      }
+    </script>
+  </body>
+</html>

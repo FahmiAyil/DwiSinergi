@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/material.min.css">
+    <script src="/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  </head>
+  <body>
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <span class="mdl-layout-title">FahmiApp</span>
+          <div class="mdl-layout-spacer"></div>
+        </div>
+      </header>
+      <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title">FahmiApp</span>
+        <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" href="/">Home</a>
+          <a class="mdl-navigation__link" href="/category">Kategori</a>
+          <a class="mdl-navigation__link" href="/transactions">Transaksi</a>
+        </nav>
+      </div>
+      <main class="mdl-layout__content" style="padding:10px 0 0 20%">
+        <div class="page-content">
+          <h2>Transaksi</h2>
+          <h4>Saldo = <%= saldo %></h4>
+          <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" onclick="addNew()">
+            Tambah Baru
+          </button>
+          <div style="margin-top: 1em;">
+            Start Date <input type="date" id="startDate" name="startDate" value="<%= startDate %>">
+            End Date <input type="date" id="endDate" name="endDate" value="<%= endDate %>">
+            <button onclick="filter()" class="mdl-button mdl-button--raised mdl-button--colored" onclick="addNew()" style="height: 20px; line-height: 20px">
+              Filter
+            </button>
+            </form>
+          </div>
+          <table class="mdl-data-table mdl-js-data-table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th class="mdl-data-table__cell--non-numeric">Transaksi</th>
+                <th class="mdl-data-table__cell--non-numeric">Nominal</th>
+                <th class="mdl-data-table__cell--non-numeric">Kategori</th>
+                <th class="mdl-data-table__cell--non-numeric">Tanggal</th>
+                <th class="mdl-data-table__cell--non-numeric">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for(i = 0; i < result.length; i++){ %>
+              <tr>
+                <td><%= i+1 %></td>
+                <td class="mdl-data-table__cell--non-numeric"><%= result[i]['category.name'] %></td>
+                <td class="mdl-data-table__cell--non-numeric"><%= result[i].nominalConverted %></td>
+                <td class="mdl-data-table__cell--non-numeric"><%= result[i].tipe %></td>
+                <td class="mdl-data-table__cell--non-numeric"><%= result[i].tanggal %></td>
+                <td>
+                  <button>
+                    <i onclick="editData(<%= result[i].id %>)" class="material-icons mdl-list__item-icon">
+                      edit
+                    </i>
+                  </button>
+                  <form action="/transactions/deletetransaction/<%= result[i].id %>?_method=DELETE" method="POST">
+                    <button>
+                      <i class="material-icons mdl-list__item-icon">delete</i>
+                    </button>
+                  </form>
+                </td>
+
+              </tr>
+              <% } %>
+
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+    <script>
+      const addNew = () => {
+        console.log('aloha')
+        window.location.href = "/transactions/addtransaction";
+      }
+
+      const editData = (id) => {
+        console.log(id)
+        window.location.href = `/transactions/edittransaction/${id}`;
+      }
+
+      const filter = () => {
+        let startDate = document.querySelector('#startDate').value
+        let endDate = document.querySelector('#endDate').value
+        window.location.href = `/transactions?startDate=${startDate}&endDate=${endDate}`;
+      }
+    </script>
+  </body>
+</html>
